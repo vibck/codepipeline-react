@@ -3,17 +3,21 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      nodejs: 22  # Oder eine andere passende Node.js-Version
+      nodejs: 20
     commands:
       - echo "Installing dependencies..."
-      - npm install
+      - npm ci  # Faster and more reliable for CI/CD
 
   build:
     commands:
       - echo "Building the React app..."
-      - npm run build
+      - npm run build  # Ensure your app builds into the `dist` folder
+
+  post_build:
+    commands:
+      - echo "Build completed successfully."
 
 artifacts:
   files:
-    - build/**  # Speichert den gebauten Output-Ordner
-  base-directory: build  # Setzt den `build/`-Ordner als Wurzel für die Artefakte
+    - '**/*'  # Includes all files inside the `dist/` directory
+  base-directory: dist
